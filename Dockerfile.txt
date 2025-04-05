@@ -1,0 +1,19 @@
+# Apache base image le rahe hain
+FROM ubuntu:20.04
+
+# Non-interactive install (for avoiding prompts)
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Apache2 install karna
+RUN apt update && \
+    apt install -y apache2 && \
+    apt clean
+
+# Apache ke default web folder ko clear karke naye files copy karna
+RUN rm -rf /var/www/html
+
+# Apna folder /var/www/html mein copy karna
+COPY . /var/www/html
+
+# Apache ko foreground mein run karne ke liye
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
